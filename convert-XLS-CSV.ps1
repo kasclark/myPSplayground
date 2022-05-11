@@ -2,6 +2,7 @@
 # if you're unable to execute, try 'Set-ExecutionPolicy -ExecutionPolicy remotesigned -Scope Process' from the PS command line first
 
 # import all the things
+# if needed for each computer Install-Module -Name ImportExcel -Scope CurrentUser -Force
 Import-Module -Name ImportExcel -Force
 
 # check for arguments
