@@ -57,7 +57,7 @@ foreach ($item in $data) {
 }
 
 # output that sweet, sweet data
-$myArray | export-csv -Path .\tripwire-info.csv -NoTypeInformation
+$myArray | export-csv -Path .\your-info.csv -NoTypeInformation
 
 # clean up
 $wb.Close()
