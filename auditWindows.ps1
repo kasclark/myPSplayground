@@ -6,11 +6,9 @@
 # ...
 
 # Global variables
-
 $auditResults = @() # Array of results (test, result)
 
 # User defined variables **UPDATE THESE FOR YOUR SCENARIO**
-
 $requiredSoftware = @("carbon", "tanium", "tripwire", "sentinel", "cohesity", "puppet", "nessus") # List of software that to check for (tip: keep the strings short to avoid errors when they don't match exactly e.g., excel rather than Microsoft Excel)
 $printToConsole = 1 # Change to '0' to disable console output.
 $eventCollectorAccount = "eventCollectorServiceAccount" # Change to the account that can pull event logs
@@ -22,11 +20,9 @@ $eventCollectorAccount = "eventCollectorServiceAccount" # Change to the account 
 if ($printToConsole) { Write-Host "`n========== STEP 1: Checking required software... ==========`n" }
 
 # Gather list of installed software
-
 $installedSoftware = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName
 
 # Check whether certain software is installed
-
 foreach ($rs in $requiredSoftware) {
     $testResult = New-Object System.Object
     $testResult | Add-Member -type NoteProperty -Name "TEST" -Value $rs
@@ -53,7 +49,6 @@ foreach ($rs in $requiredSoftware) {
 if ($printToConsole) { Write-Host "`n========== STEP 2: Checking required settings... ==========`n" }
 
 # Check if password complexity is enabled
-
 $testResult = New-Object System.Object
 $testResult | Add-Member -type NoteProperty -Name "TEST" -Value "Password Complexity"
 if (Get-ADDefaultDomainPasswordPolicy | Select-Object -ExpandProperty ComplexityEnabled) {
@@ -66,13 +61,15 @@ else {
 }
 $auditResults += $testResult
 
-# Check audit policy (TODO)
+# Check audit policy
+# TODO
 # unsuccessful login attempts are being logged?
 # No idea how to do this... 
 # how about pull entire default domain policy into xml and parse it?
 # Get-GPOReport -name "Default Domain Policy" -ReportType xml -Path "gporeport.xml"
 
-# Check WEC configuration (TODO)
+# Check WEC configuration
+# TODO
 # What exactly?
 # just an idea... get the local group 'event log readers' and see if it's empty or if the correct account is listed
 
@@ -93,7 +90,8 @@ if (-not $found) {
 }
 $auditResults += $testResult
 
-# enforce authentication of interactive user access (TODO)
+# enforce authentication of interactive user access
+# TODO
 
 #####################################################################
 ####################### STEP 3: MISCELLANEOUS #######################
@@ -102,6 +100,7 @@ $auditResults += $testResult
 if ($printToConsole) { Write-Host "`n============ STEP 3: Miscellaneous settings... ============`n" }
 
 # Check console of various things to see if they are reporting in correctly to the SIEM, AV, Nessus, Cohesity, etc.
+# TODO
 
 # Save output to a file named 'audit-results-[date].csv'
 $auditResults | export-csv -Path .\audit-restults-$(get-date -f yyyy-MM-dd).csv -NoTypeInformation
